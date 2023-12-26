@@ -87,9 +87,11 @@ router.get("/logout", cors(), function (req, res) {
 
 //admin authentication =>
 
-router.get("/admin_registeration_Tony_De_Cost_Invite", function (req, res) {
-  res.render("admin_registeration");
-});
+router.get(
+  "/admin_registeration_Tony_De_Cost_Invite",
+  cors(),
+  function (req, res) {}
+);
 
 // router.post("/admin_register", function (req, res) {
 //   bcrypt.hash(req.body.password, saltRounds, function (err, hash) {

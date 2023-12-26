@@ -11,6 +11,10 @@ mongoose.connect(
 const adminSchema = new mongoose.Schema({
   username: String,
   password: String,
+  invitee: {
+    type: [String],
+    default: [],
+  },
 });
 const Admin = mongoose.model("Admin", adminSchema);
 

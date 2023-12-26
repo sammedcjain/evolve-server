@@ -116,6 +116,15 @@ router.post("/admin_register", async (req, res) => {
   const { username, password } = req.body;
 
   try {
+    // Check if the username is present in the invitee array
+    const inviteeCheckAdmin = await Admin.findOne({ invitee: username });
+
+    if (!inviteeCheckAdmin) {
+      return res
+        .status(400)
+        .json({ message: "Username not present in the invitee list" });
+    }
+
     const existingAdmin = await Admin.findOne({ username });
 
     if (existingAdmin) {
@@ -215,4 +224,31 @@ router.get("/admin_post", cors(), verifyToken("admin"), function (req, res) {
     .json({ message: "Authentication successful", user: req.user });
 });
 
+router.post("/admin_invitee", verifyToken("admin"), async function (req, res) {
+  const { username, inviteeEmail } = req.body;
+  console.log(username, inviteeEmail);
+  try {
+    // Find the admin by username
+    const admin = await Admin.findOne({ username });
+
+    if (!admin) {
+      return res.json({ error: "Admin not found" });
+    }
+
+    // Check if inviteeEmail is already in the invitee array
+    if (admin.invitee.includes(inviteeEmail)) {
+      return res.json({ error: "Invitee email already present" });
+    }
+
+    // Add the inviteeEmail to the invitee array
+    admin.invitee.push(inviteeEmail);
+
+    // Save the updated admin document
+    await admin.save();
+    return res.json({ message: "Invitee added successfully" });
+  } catch (error) {
+    console.error(error);
+    return res.json({ message: "Internal Server Error" });
+  }
+});
 module.exports = router;

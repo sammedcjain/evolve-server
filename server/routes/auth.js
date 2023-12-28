@@ -18,7 +18,7 @@ router.post("/register", async (req, res) => {
     const existingUser = await User.findOne({ username });
 
     if (existingUser) {
-      return res.status(400).json({ message: "Username is already taken" });
+      return res.json({ error: "Username is already taken" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -37,7 +37,7 @@ router.post("/register", async (req, res) => {
     res.status(201).json({ token, redirectUrl: "/evdb" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error occurred" });
+    res.json({ error: "Error occurred" });
   }
 });
 
@@ -51,18 +51,18 @@ router.post("/login", async (req, res) => {
     const user = await User.findOne({ username });
 
     if (!user) {
-      return res.status(401).json({ message: "Invalid Username" });
+      return res.json({ error: "Invalid Username" });
     }
 
     // Ensure that user.password contains the hashed password from the database
     if (!user.password) {
-      return res.status(401).json({ message: "Invalid Password" });
+      return res.json({ error: "Invalid Password" });
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
-      return res.status(401).json({ message: "Invalid Password" });
+      return res.json({ error: "Invalid Password" });
     }
 
     // If authentication is successful, generate a JWT token
@@ -77,7 +77,7 @@ router.post("/login", async (req, res) => {
     res.status(200).json({ token, redirectUrl: "/evdb" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "An error occurred during login" });
+    res.json({ error: "An error occurred during login" });
   }
 });
 
@@ -122,15 +122,13 @@ router.post("/admin_register", async (req, res) => {
     const inviteeCheckAdmin = await Admin.findOne({ invitee: username });
 
     if (!inviteeCheckAdmin) {
-      return res
-        .status(400)
-        .json({ message: "Username not present in the invitee list" });
+      return res.json({ error: "Username not present in the invitee list" });
     }
 
     const existingAdmin = await Admin.findOne({ username });
 
     if (existingAdmin) {
-      return res.status(400).json({ message: "Username is already taken" });
+      return res.json({ error: "Username is already taken" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -149,7 +147,7 @@ router.post("/admin_register", async (req, res) => {
     res.status(201).json({ token, redirectUrl: "/admin_post" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error occurred" });
+    res.json({ error: "Error occurred" });
   }
 });
 
@@ -190,18 +188,18 @@ router.post("/admin_login", async (req, res) => {
     const admin = await Admin.findOne({ username });
 
     if (!admin) {
-      return res.status(401).json({ message: "Invalid Username" });
+      return res.json({ error: "Invalid Username" });
     }
 
     // Ensure that admin.password contains the hashed password from the database
     if (!admin.password) {
-      return res.status(401).json({ message: "Invalid Password" });
+      return res.json({ error: "Invalid Password" });
     }
 
     const passwordMatch = await bcrypt.compare(password, admin.password);
 
     if (!passwordMatch) {
-      return res.status(401).json({ message: "Invalid Password" });
+      return res.json({ error: "Invalid Password" });
     }
 
     // If authentication is successful, generate a JWT token
@@ -216,7 +214,7 @@ router.post("/admin_login", async (req, res) => {
     res.status(200).json({ token, redirectUrl: "/admin_post" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "An error occurred during login" });
+    res.json({ error: "An error occurred during login" });
   }
 });
 

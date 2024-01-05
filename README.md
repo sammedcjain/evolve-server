@@ -1,6 +1,7 @@
 # EV_Dekho
-
-Ev_Dekho is a full-stack web application project built using Node.js, Express.js, React.js , MongoDB. <br>
+Deployed Link = https://evolve-client.vercel.app/ 
+Ev_Dekho is a full-stack web application through which users can explore electric vehicles. <br>
+Built using Node.js, Express.js, React.js , MongoDB. <br>
 This repository - evolve-server only containts the node.js server side code and you can find the frontend - react code in <a href="https://github.com/sammedcjain/evolve-client">evolve-client</a> repo.
 
 ## Various functionalities have been mentioned below:
@@ -38,6 +39,6 @@ This repository - evolve-server only containts the node.js server side code and 
   - body-parser
 
 Backend node.js server is deployed using render = https://evolve-server.onrender.com/ <br>
-Front-end react part is deployed using Vercel
+Front-end react part is deployed using Vercel = https://evolve-client.vercel.app/ 
 
 You can access my website using this link: https://evolve-client.vercel.app/
